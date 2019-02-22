@@ -1,4 +1,4 @@
-package app.Utils;
+package app.database;
 
 import app.entities.Product;
 
@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by OK on 22.02.2019.
- */
 public class DBUtils {
 
     public static List<Product> queryProduct (Connection connection) throws SQLException {
@@ -22,9 +19,9 @@ public class DBUtils {
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Product> list = new ArrayList<Product>();
         while (resultSet.next()){
-            String code = resultSet.getString("Code");
-            String name = resultSet.getString("Name");
-            float price = resultSet.getFloat("Price");
+            String code = resultSet.getString("CODE");
+            String name = resultSet.getString("NAME");
+            float price = resultSet.getFloat("PRICE");
             Product product = new Product();
             product.setCode(code);
             product.setName(name);
@@ -32,5 +29,17 @@ public class DBUtils {
             list.add(product);
         }
         return list;
+    }
+
+    public static void insertProduct(Connection conn, Product product) throws SQLException {
+        String sql = "Insert into Product(Code, Name,Price) values (?,?,?)";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+
+        pstm.setString(1, product.getCode());
+        pstm.setString(2, product.getName());
+        pstm.setFloat(3, product.getPrice());
+
+        pstm.executeUpdate();
     }
 }
