@@ -11,14 +11,14 @@ import java.util.List;
 
 public class DBUtils {
 
-    public static List<Product> queryProduct (Connection connection) throws SQLException {
+    public static List<Product> queryProduct(Connection connection) throws SQLException {
         String sql = "SELECT * FROM product";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Product> list = new ArrayList<Product>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             String code = resultSet.getString("CODE");
             String name = resultSet.getString("NAME");
             float price = resultSet.getFloat("PRICE");

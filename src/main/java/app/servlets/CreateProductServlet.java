@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
-public class CreateProductServlet extends HttpServlet{
+public class CreateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/createProduct.jsp");
