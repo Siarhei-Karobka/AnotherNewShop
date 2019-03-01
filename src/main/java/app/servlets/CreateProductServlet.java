@@ -17,6 +17,25 @@ import java.sql.SQLException;
 public class CreateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Product product = null;
+
+        String code = req.getParameter("code");
+
+        if (code != null){
+            // Find product with "code" in DB
+            try {
+                Connection connection = DBConnection.getConnection();
+                product = DBUtils.findProduct(connection, code);
+                connection.close();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        req.setAttribute("product", product);
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/createProduct.jsp");
         requestDispatcher.forward(req, resp);
     }
@@ -24,9 +43,9 @@ public class CreateProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String code = (String) req.getParameter("code");
-        String name = (String) req.getParameter("name");
-        String priceStr = (String) req.getParameter("price");
+        String code = req.getParameter("code");
+        String name = req.getParameter("name");
+        String priceStr = req.getParameter("price");
         float price = 0;
         try {
             price = Float.parseFloat(priceStr);
@@ -53,14 +72,12 @@ public class CreateProductServlet extends HttpServlet {
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                errorString = e.getMessage();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
         // Сохранить информацию в request attribute перед тем как forward к views.
-        req.setAttribute("errorString", errorString);
         req.setAttribute("product", product);
 
         //перенаправляемся на список продуктов.

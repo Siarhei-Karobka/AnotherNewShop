@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!-- create product servlet -->
+    <!-- create new in product servlet -->
     <servlet>
         <servlet-name>createProduct</servlet-name>
         <servlet-class>app.servlets.CreateProductServlet</servlet-class>
@@ -13,6 +13,17 @@
     <servlet-mapping>
         <servlet-name>createProduct</servlet-name>
         <url-pattern>/createProduct</url-pattern>
+    </servlet-mapping>
+
+    <!-- edit exist in product servlet -->
+    <servlet>
+        <servlet-name>editProduct</servlet-name>
+        <servlet-class>app.servlets.ProductListServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>editProduct</servlet-name>
+        <url-pattern>/productList/*</url-pattern>
     </servlet-mapping>
 
     <!-- product list servlet -->
@@ -25,6 +36,5 @@
         <servlet-name>productList</servlet-name>
         <url-pattern>/productList</url-pattern>
     </servlet-mapping>
-
 
 </web-app>

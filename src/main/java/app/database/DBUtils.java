@@ -32,7 +32,7 @@ public class DBUtils {
     }
 
     public static void insertProduct(Connection conn, Product product) throws SQLException {
-        String sql = "Insert into Product(Code, Name,Price) values (?,?,?)";
+        String sql = "Replace into Product(Code, Name, Price) values (?,?,?)";
 
         PreparedStatement pstm = conn.prepareStatement(sql);
 
@@ -41,5 +41,30 @@ public class DBUtils {
         pstm.setFloat(3, product.getPrice());
 
         pstm.executeUpdate();
+    }
+
+    public static Product findProduct(Connection conn, String code) throws SQLException {
+        String sql = "Select a.Code, a.Name, a.Price from Product a where a.Code=?";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, code);
+
+        ResultSet rs = pstm.executeQuery();
+
+        while (rs.next()) {
+            String name = rs.getString("Name");
+            float price = rs.getFloat("Price");
+            return new Product(code, name, price);
+        }
+        return null;
+    }
+
+    public static void deleteProduct(Connection conn, String code) throws SQLException {
+        String sql = "Delete from Product where Code=?";
+
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, code);
+
+        pstm.executeQuery();
     }
 }
