@@ -24,13 +24,40 @@
                 <a href="createProduct?code=${product.code}">Edit</a>
             </td>
             <td>
-                <a href="deleteProduct?code=${product.code}">Delete</a>
+                <form method="post">
+                    <input type="hidden" name="method" value="_delete">
+                    <input type="hidden" name="code" value="${product.code}">
+                    <input type="submit" class="delete-button" data-id="${product.code}" value="Delete">
+                </form>
             </td>
         </tr>
     </c:forEach>
 </table>
 
 <a href="createProduct">Create Product</a>
+
+<%--<script type="text/javascript">
+    var buttons  = document.getElementsByClassName("delete-button");
+    for (var btn in buttons) {
+        if (buttons.hasOwnProperty(btn)) {
+            var target = buttons[btn];
+            target.addEventListener('click', function (event) {
+                var xhr = new XMLHttpRequest();
+                var params = 'code=' + event.target.getAttribute('data-id');
+                xhr.open("DELETE", '/productList?' + params, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == "200") {
+                        console.table(xhr.responseText);
+                        location.reload();
+                    } else {
+                        console.error(xhr.responseText);
+                    }
+                };
+                xhr.send();
+            })
+        }
+    }
+</script>--%>
 
 </body>
 </html>

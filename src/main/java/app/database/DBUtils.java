@@ -65,6 +65,6 @@ public class DBUtils {
         PreparedStatement pstm = conn.prepareStatement(sql);
         pstm.setString(1, code);
 
-        pstm.executeQuery();
+        pstm.executeUpdate();
     }
 }

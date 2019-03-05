@@ -39,6 +39,37 @@ public class ProductListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            final String method = request.getParameter("method");
+            if ("_delete".equals(method)) {
+                DBUtils.deleteProduct(DBConnection.getConnection(), request.getParameter("code"));
+            } else {
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         doGet(request, response);
+    }
+
+    @Override
+    protected void doDelete(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            DBUtils.deleteProduct(DBConnection.getConnection(), req.getQueryString().split("=")[1]);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/productList.jsp");
+        requestDispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doOptions(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+        super.doOptions(req, resp);
     }
 }
