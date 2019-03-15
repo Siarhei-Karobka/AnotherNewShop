@@ -1,0 +1,20 @@
+# DROP TABLE `product`;
+#
+# CREATE TABLE `product` (
+#   `CODE` mediumint(8) unsigned NOT NULL auto_increment,
+#   `NAME` varchar(255) default NULL,
+#   `PRICE` mediumint default NULL,
+#   PRIMARY KEY (`CODE`)
+# ) AUTO_INCREMENT=1;
+#
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Glyburide",3),("Famotidine",6),("Simvastatin",4),("Hydrochlorothiazide",5),("Fluticasone Propionate",2),("Enalapril Maleate",1),("Zolpidem Tartrate",4),("Tricor",5),("Penicillin VK",10),("Tamsulosin HCl",3);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Diovan",8),("Amoxicillin Trihydrate/Potassium Clavulanate",10),("Amlodipine Besylate",10),("Proair HFA",9),("Clindamycin HCl",3),("Omeprazole (Rx)",3),("Hydrocodone/APAP",9),("Lexapro",6),("Metoprolol Succinate",1),("Celebrex",3);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Cialis",1),("Metoprolol Tartrate ",3),("Potassium Chloride",7),("Alprazolam",7),("Famotidine",9),("Naproxen",4),("Abilify",7),("Advair Diskus",5),("Synthroid",8),("Amitriptyline HCl",6);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Nuvaring",5),("Benicar",6),("Tricor",3),("Amlodipine Besylate",5),("Lipitor",2),("Omeprazole (Rx)",7),("Diazepam",2),("Carvedilol",1),("Amoxicillin Trihydrate/Potassium Clavulanate",3),("Amlodipine Besylate",8);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Omeprazole (Rx)",9),("Amoxicillin",1),("Oxycodone HCl",10),("Promethazine HCl",4),("Simvastatin",7),("Lisinopril",4),("Vyvanse",4),("Klor-Con M20",4),("Januvia",4),("Amlodipine Besylate",2);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Tri-Sprintec",5),("Ibuprofen (Rx)",4),("Glyburide",7),("Tricor",10),("Albuterol",6),("Nasonex",9),("Zetia",10),("Glyburide",2),("Alendronate Sodium",6),("APAP/Codeine",5);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Meloxicam",1),("Furosemide",5),("Amoxicillin Trihydrate/Potassium Clavulanate",10),("Lovaza",5),("Levothyroxine Sodium",4),("Fluticasone Propionate",3),("Cyclobenzaprin HCl",2),("Cyclobenzaprin HCl",8),("Lantus Solostar",5),("Clonazepam",7);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Vitamin D (Rx)",5),("Glyburide",1),("Gabapentin",7),("Venlafaxine HCl ER",8),("Risperidone",6),("Cyclobenzaprin HCl",9),("Lantus",6),("Sertraline HCl",7),("Abilify",2),("Amlodipine Besylate",8);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Citalopram HBr",3),("Prednisone",6),("Lisinopril",9),("Cyclobenzaprin HCl",4),("Tri-Sprintec",1),("Lisinopril",4),("Advair Diskus",1),("Viagra",8),("Doxycycline Hyclate",7),("Furosemide",9);
+# INSERT INTO `product` (`NAME`,`PRICE`) VALUES ("Doxycycline Hyclate",9),("Lorazepam",5),("Levaquin",3),("Trazodone HCl",7),("Ibuprofen (Rx)",8),("Lisinopril",3),("Nuvaring",1),("Amlodipine Besylate",1),("Simvastatin",1),("APAP/Codeine",5);
+

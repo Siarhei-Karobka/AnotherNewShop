@@ -1,7 +1,7 @@
 package app.servlets;
 
-import app.database.DBUtils;
 import app.database.DBConnection;
+import app.database.DBUtils;
 import app.entities.Product;
 
 import javax.servlet.RequestDispatcher;
@@ -23,16 +23,7 @@ public class CreateProductServlet extends HttpServlet {
         String code = req.getParameter("code");
 
         if (code != null){
-            // Find product with "code" in DB
-            try {
-                Connection connection = DBConnection.getConnection();
-                product = DBUtils.findProduct(connection, code);
-                connection.close();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            product = DBUtils.findProduct(code);
         }
         req.setAttribute("product", product);
 
@@ -65,17 +56,7 @@ public class CreateProductServlet extends HttpServlet {
             errorString = "Product Code invalid!";
         }
 
-        if (errorString == null) {
-            try {
-                Connection connection = DBConnection.getConnection();
-                DBUtils.insertProduct(connection, product);
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        DBUtils.insertProduct(product);
 
         // Сохранить информацию в request attribute перед тем как forward к views.
         req.setAttribute("product", product);
