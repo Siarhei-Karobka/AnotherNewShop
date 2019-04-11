@@ -11,6 +11,7 @@
         <tr>
             <td>Code</td>
             <td><input type="text" name="code" value="${product.code}"/></td>
+            <td>if this field empty you'll add new product or replace exist</td>
         </tr>
         <tr>
             <td>Name</td>
