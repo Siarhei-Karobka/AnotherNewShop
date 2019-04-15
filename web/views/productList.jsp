@@ -7,6 +7,24 @@
 <body>
 <h3>Product List</h3>
 
+<div> <%-- pagination buttons --%>
+    <form method="post">
+        <input type="hidden" name="method" value="_post">
+        <input type="hidden" name="size" value="10">
+        <input type="hidden" name="page" value="${currentPage - 1}" >
+        <input type="submit" class="button" value="Left">
+    </form>
+    <form method="post">
+        <input name="search" type="number" size="1">
+    </form>
+    <form method="post">
+        <input type="hidden" name="method" value="_post">
+        <input type="hidden" name="size" value="10">
+        <input type="hidden" name="page" value="${currentPage + 1}">
+        <input type="submit" class="button" value="Right">
+    </form>
+</div>
+
 <table border="1" cellpadding="5" cellspacing="1">
     <tr>
         <th>Code</th>
@@ -27,7 +45,7 @@
                 <form method="post">
                     <input type="hidden" name="method" value="_delete">
                     <input type="hidden" name="code" value="${product.code}">
-                    <input type="submit" class="delete-button" data-id="${product.code}" value="Delete">
+                    <input type="submit" class="delete-button" value="Delete">
                 </form>
             </td>
         </tr>

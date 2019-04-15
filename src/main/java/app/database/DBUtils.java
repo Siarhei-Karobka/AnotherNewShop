@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBUtils {
-    public static List<Product> queryProduct() {
+    public static List<Product> queryProduct(int page, int size) {
         String sql = "SELECT * FROM product";
+        String limits = " LIMIT " + page + "," + size;
+
         List<Product> list = new ArrayList<Product>();
 
-        ResultSet resultSet = DBItem.executeSelect(sql);
+        ResultSet resultSet = DBItem.executeSelect(sql + limits);
 
         try {
             while (resultSet.next()) {
