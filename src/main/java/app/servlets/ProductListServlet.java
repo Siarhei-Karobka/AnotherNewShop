@@ -1,6 +1,8 @@
 package app.servlets;
 
-import app.database.DBUtils;
+import app.dao.ProductDaoImpl;
+import app.entities.Page;
+import app.entities.PageRequest;
 import app.entities.Product;
 
 import javax.servlet.RequestDispatcher;
@@ -10,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,12 +20,20 @@ public class ProductListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int page = 1;
-        int size = 10;
+        PageRequest pageRequest = new PageRequest();
+        pageRequest.setSize(10);
 
-        List<Product> list = DBUtils.queryProduct((page-1)*size, size);
+        if (request.getAttribute("currentPage") == null) {
+            pageRequest.setPage(0);
+        } else {
+            pageRequest.setPage((Integer) request.getAttribute("currentPage"));
+        }
+
+        Page<Product> page = new ProductDaoImpl().getAll(pageRequest);
+
+        List<Product> list = page.getContent();
         request.setAttribute("productList", list);
-        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", page.getTotal());
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/productList.jsp");
         requestDispatcher.forward(request, response);
@@ -33,44 +42,26 @@ public class ProductListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            final String method = request.getParameter("method");
-            if ("_delete".equals(method)) {
-                DBUtils.deleteProduct(request.getParameter("code"));
-            }
-            if ("_post".equals(method)){
-                int page = Optional.ofNullable(request.getParameter("page")).map(Integer::parseInt).orElse(0);
-                int size = Integer.parseInt(request.getParameter("size"));
-                if (request.getParameter("size") == null) {
-                    size = 10;
-                } else {
-                    size = Integer.parseInt(request.getParameter("size"));
-                }
+        final String method = request.getParameter("method");
+        if ("_delete".equals(method)) {
+            ProductDaoImpl productDao = new ProductDaoImpl();
+            productDao.deleteOneById(request.getParameter("code"));
+        }
 
-                List<Product> list = DBUtils.queryProduct((page-1)*size, size);
-                request.setAttribute("productList", list);
-                request.setAttribute("currentPage", page);
-
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/productList.jsp");
-                requestDispatcher.forward(request, response);
-
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if ("_post".equals(method)) {
+            int currentPage = Optional.ofNullable(request.getParameter("currentPage")).map(Integer::parseInt).orElse(0);
+            request.setAttribute("currentPage", currentPage);
+            doGet(request, response);
         }
         doGet(request, response);
     }
 
     @Override
-    protected void doDelete(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            DBUtils.deleteProduct(req.getQueryString().split("=")[1]);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/productList.jsp");
-        requestDispatcher.forward(req, resp);
+    protected void doDelete(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+        ProductDaoImpl productDao = new ProductDaoImpl();
+        productDao.deleteOneById(request.getQueryString().split("=")[1]);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/productList.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package app.servlets;
 
-import app.database.DBConnection;
-import app.database.DBUtils;
+import app.dao.ProductDaoImpl;
 import app.entities.Product;
 
 import javax.servlet.RequestDispatcher;
@@ -10,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 
 public class CreateProductServlet extends HttpServlet {
@@ -19,11 +16,10 @@ public class CreateProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Product product = null;
-
         String code = req.getParameter("code");
 
-        if (code != null){
-            product = DBUtils.findProduct(code);
+        if (code != null) {
+            product = new ProductDaoImpl().getOneById(code);
         }
         req.setAttribute("product", product);
 
@@ -56,7 +52,8 @@ public class CreateProductServlet extends HttpServlet {
             errorString = "Product Code invalid!";
         }
 
-        DBUtils.insertProduct(product);
+        ProductDaoImpl productDao = new ProductDaoImpl();
+        productDao.createOne(product);
 
         // Сохранить информацию в request attribute перед тем как forward к views.
         req.setAttribute("product", product);
