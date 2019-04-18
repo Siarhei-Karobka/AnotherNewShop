@@ -53,6 +53,11 @@ public class ProductListServlet extends HttpServlet {
             request.setAttribute("currentPage", currentPage);
             doGet(request, response);
         }
+
+        if ("_search".equals(method)){
+            String searchField= request.getParameter("searchField");
+            request.setAttribute("searchField", searchField);
+        }
         doGet(request, response);
     }
 

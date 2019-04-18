@@ -3,49 +3,61 @@
 <html>
 <head>
     <title>Product List</title>
+    <style>
+        .col1 {
+            float: left;
+            min-height: 50px;
+            width: 100%;
+        }
+        </style>
 </head>
 <body>
 <h3>Product List</h3>
 
-<div> <%-- pagination buttons --%>
+<div class="col1"> <%-- pagination buttons --%>
     <c:choose>
         <c:when test="${currentPage > 0}">
-            <form method="post">
+            <form method="post" style="float: left">
                 <input type="hidden" name="method" value="_post">
                 <input type="hidden" name="size" value="10">
                 <input type="hidden" name="currentPage" value="${currentPage - 1}">
-                <input type="submit" class="button" value="Previous" style="float: left; padding: 5px; margin: 5px;">
+                <input type="submit" class="button" value="Previous" >
             </form>
         </c:when>
         <c:otherwise>
-            <form>
-                <button disabled style="float: left; padding: 5px; margin: 5px;">Previous</button>
+            <form style="float: left">
+                <button disabled>Previous</button>
             </form>
         </c:otherwise>
     </c:choose>
 
 
-    <form method="post">
-        <input name="search" type="number" maxlength="3" size="3" value="${currentPage+1}" style="float: left; padding: 5px; margin: 5px;">
+    <form method="post" style="float: left">
+        <input name="search" type="number" maxlength="3" size="3" value="${currentPage+1}" >
     </form>
 
     <c:choose>
         <c:when test="${currentPage != totalPages}">
-            <form method="post">
+            <form method="post" style="float: left">
                 <input type="hidden" name="method" value="_post">
                 <input type="hidden" name="size" value="10">
                 <input type="hidden" name="currentPage" value="${currentPage + 1}">
-                <input type="submit" class="button" value="Next page" style="float: left; padding: 5px; margin: 5px;">
+                <input type="submit" class="button" value="Next page" >
             </form>
         </c:when>
         <c:otherwise>
-            <form>
-                <button disabled style="float: left; padding: 5px; margin: 5px;">Next page</button>
+            <form style="float: left">
+                <button disabled >Next page</button>
             </form>
         </c:otherwise>
     </c:choose>
+
+    <form style="float: right">
+        <p><input type="searchField" placeholder="Поиск по сайту">
+            <input type="submit" value="Найти"></p>
+    </form>
 </div>
-<div style="width: 70%">
+<div>
     <table border="1" cellpadding="5" cellspacing="1">
         <tr>
             <th>Code</th>
@@ -73,9 +85,9 @@
         </c:forEach>
     </table>
 </div>
-
+<div class="col1">
 <a href="createProduct">Create Product</a>
-
+</div>
 <%--<script type="text/javascript">
     var buttons  = document.getElementsByClassName("delete-button");
     for (var btn in buttons) {
