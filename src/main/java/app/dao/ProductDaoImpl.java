@@ -18,17 +18,24 @@ public class ProductDaoImpl implements DAO<Product> {
     @Override
     public Page<Product> getAll(PageRequest request) {
 
-        String limits = " LIMIT " + ((request.getPage())) * request.getSize() + "," + request.getSize();
-
+        ResultSet resultSet;
+        ResultSet countResult;
         List<Product> list = new ArrayList<Product>();
 
-        ResultSet countResult = DBItem.executeSelect(COUNT);
-        ResultSet resultSet = DBItem.executeSelect(BASE + limits);
+        if (request.getSort() != null){
+            String s = request.getSort();
+            String search = " WHERE CODE LIKE \"%" + s + "%\" OR NAME LIKE \"%" + s + "%\" OR PRICE LIKE \"%" + s + "%\"";
+            countResult = DBItem.executeSelect(COUNT + search);
+            resultSet = DBItem.executeSelect(BASE + search);
+        } else {
+            String limits = " LIMIT " + ((request.getPage())) * request.getSize() + "," + request.getSize();
+            countResult = DBItem.executeSelect(COUNT);
+            resultSet = DBItem.executeSelect(BASE + limits);
+        }
 
         Page<Product> page = new Page<>();
 
         try {
-
             if (countResult.next()) {
                 if (countResult.getLong(1) % request.getSize() > 0) {
                     page.setTotal(countResult.getLong(1) / request.getSize());
@@ -57,13 +64,15 @@ public class ProductDaoImpl implements DAO<Product> {
     }
 
     @Override
-    public Product getOneById(String code) {
-        String sql = "Select a.Code, a.Name, a.Price from Product a where a.Code= \"" + code + "\"";
+    public Product getOne(String str) {
+        String search = "WHERE CODE LIKE \"%" + str + "%\" OR NAME LIKE \"%" + str + "%\" OR PRICE LIKE \"%" + str + "%\"";
+        String sql = BASE + search;
 
         ResultSet rs = DBItem.executeSelect(sql);
 
         try {
             if (rs.next()) {
+                String code = rs.getString("Code");
                 String name = rs.getString("Name");
                 float price = rs.getFloat("Price");
                 return new Product(code, name, price);

@@ -22,6 +22,7 @@ public class ProductListServlet extends HttpServlet {
 
         PageRequest pageRequest = new PageRequest();
         pageRequest.setSize(10);
+        pageRequest.setSort((String) request.getAttribute("searchField"));
 
         if (request.getAttribute("currentPage") == null) {
             pageRequest.setPage(0);
@@ -54,9 +55,10 @@ public class ProductListServlet extends HttpServlet {
             doGet(request, response);
         }
 
-        if ("_search".equals(method)){
-            String searchField= request.getParameter("searchField");
+        if ("_search".equals(method)) {
+            String searchField = request.getParameter("searchField");
             request.setAttribute("searchField", searchField);
+            doGet(request, response);
         }
         doGet(request, response);
     }

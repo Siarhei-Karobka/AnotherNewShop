@@ -19,7 +19,7 @@ public class CreateProductServlet extends HttpServlet {
         String code = req.getParameter("code");
 
         if (code != null) {
-            product = new ProductDaoImpl().getOneById(code);
+            product = new ProductDaoImpl().getOne(code);
         }
         req.setAttribute("product", product);
 
