@@ -1,8 +1,8 @@
 package app.servlets;
 
 import app.dao.ProductDaoImpl;
-import app.entities.Page;
-import app.entities.PageRequest;
+import app.utils.Page;
+import app.utils.PageRequest;
 import app.entities.Product;
 
 import javax.servlet.RequestDispatcher;
@@ -31,6 +31,7 @@ public class ProductListServlet extends HttpServlet {
         }
 
         Page<Product> page = new ProductDaoImpl().getAll(pageRequest);
+        request.setAttribute("page", page); // todo
 
         List<Product> list = page.getContent();
         request.setAttribute("productList", list);
@@ -52,13 +53,11 @@ public class ProductListServlet extends HttpServlet {
         if ("_post".equals(method)) {
             int currentPage = Optional.ofNullable(request.getParameter("currentPage")).map(Integer::parseInt).orElse(0);
             request.setAttribute("currentPage", currentPage);
-            doGet(request, response);
         }
 
         if ("_search".equals(method)) {
             String searchField = request.getParameter("searchField");
             request.setAttribute("searchField", searchField);
-            doGet(request, response);
         }
         doGet(request, response);
     }

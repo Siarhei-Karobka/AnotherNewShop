@@ -1,8 +1,13 @@
 package app.entities;
 
+import app.utils.annotations.SearchField;
+
 public class Product {
+    @SearchField
     private String code;
+    @SearchField
     private String name;
+    private Integer width;
     private float price;
 
     public Product() {

@@ -1,14 +1,17 @@
 package app.dao;
 
 import app.database.DBItem;
-import app.entities.Page;
-import app.entities.PageRequest;
 import app.entities.Product;
+import app.utils.Page;
+import app.utils.PageRequest;
+import app.utils.annotations.AnnotationUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static app.utils.StringUtils.isBlank;
 
 public class ProductDaoImpl implements DAO<Product> {
 
@@ -21,8 +24,22 @@ public class ProductDaoImpl implements DAO<Product> {
         ResultSet resultSet;
         ResultSet countResult;
         List<Product> list = new ArrayList<Product>();
+        // request total: count + filter
+        // request page: base + filter + ?sort? + limits
+        String filterCondition = null;
+        // todo if query contains not one word -> build condition for each word
+        if (!isBlank(request.getQuery())) {
+            String[] fields = AnnotationUtils.getAnnotatedFields(Product.class);
+            List<String> conditions = new ArrayList<>(fields.length);
+            for (String field : fields) {
+                conditions.add(String.format("%s LIKE '%%%s%%'", field, request.getQuery()));
+            }
+            filterCondition = String.join(" OR ", conditions);
+        }
 
-        if (request.getSort() != null){
+        // if filterConditions not null => add where to query
+
+        if (request.getQuery() != null) {
             String s = request.getSort();
             String search = " WHERE CODE LIKE \"%" + s + "%\" OR NAME LIKE \"%" + s + "%\" OR PRICE LIKE \"%" + s + "%\"";
             countResult = DBItem.executeSelect(COUNT + search);
@@ -45,9 +62,22 @@ public class ProductDaoImpl implements DAO<Product> {
             }
 
             page.setContent(list);
-//            page.setRequest(request);  //// TODO: 18.04.2019 подумать зачем
+            page.setRequest(request);  //// TODO: 18.04.2019 подумать зачем
 
             while (resultSet.next()) {
+                // code, name, price..
+                /*
+                field{name, type, field} : fields
+                value;
+                switch(field.type){
+                case "string": value = resultSet.getStr()
+                break;
+
+                product = new Product();
+                Field f = Product.class.getDeclaredField(field.name);
+                f.set(product, value);
+                }
+                * */
                 String code = resultSet.getString("CODE");
                 String name = resultSet.getString("NAME");
                 float price = resultSet.getFloat("PRICE");

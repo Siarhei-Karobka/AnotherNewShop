@@ -1,4 +1,4 @@
-package app.entities;
+package app.utils;
 
 public class PageRequest {
     private int page;
